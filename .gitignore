@@ -2,58 +2,62 @@
 #include <stdlib.h>
 #include <time.h>
 
+
 int matrix[5000][5000];
 
 int main() {
+
     srand(time(NULL));
 
-    int sizes[5] = {1000, 2000, 3000, 4000, 5000};
 
-    for (int s = 0; s < 5; s++) {
+    int sizes[4] = {2000, 3000, 4000, 5000};
+
+
+    for (int s = 0; s < 4; s++) {
         int n = sizes[s];
 
-        
+
         clock_t start_time = clock();
 
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                matrix[i][j] = rand() % 3;
+                matrix[i][j] = rand() % 2;
             }
         }
-        printf("Adjacency Matrix:\n");
-        for (int i = 0; i < n; i++) {
-           for (int j = 0; j < n; j++) {
-            printf("%d ", matrix[i][j]);
-        }
-        printf("\n");
-    }
+
 
         long long int sum_in_degrees = 0;
         long long int sum_out_degrees = 0;
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                sum_in_degrees += matrix[j][i];
                 sum_out_degrees += matrix[i][j];
+                sum_in_degrees += matrix[j][i];
             }
         }
 
+
         clock_t end_time = clock();
 
-        
-        printf("Sum of in-degrees: %lld\n", sum_in_degrees);
+
+        double computational_time = ((double)(end_time - start_time) * 1000.0) / CLOCKS_PER_SEC;
+
+
+        printf("For n = %d:\n", n);
         printf("Sum of out-degrees: %lld\n", sum_out_degrees);
+        printf("Sum of in-degrees:  %lld\n", sum_in_degrees);
 
         if (sum_in_degrees == sum_out_degrees) {
-            printf("Sum of in-degrees and out-degrees are equal\n");
+            printf("Sum of in-degrees and out-degrees are equal");
         } else {
-            printf("Sum of in-degrees and out-degrees are not equal\n");
+            printf("Sum of in-degrees and out-degrees are NOT equal");
         }
 
-        double computational_time = ((double)(end_time - start_time) * 1000) / CLOCKS_PER_SEC;
-        printf("Computational time for n = %d in ms : %.2f\n", n, computational_time);
+        printf("Computational time for n = %d: %.2f ms\n", n, computational_time);
+        printf("--------------------------------------------------\n");
     }
 
     return 0;
 }
+
